@@ -1,5 +1,5 @@
 # BsvBitcoinBlockChain
-This is a fork of BitcoinBlockChain (Author: Ladislau Molnar).
+This is a fork of BitcoinBlockChain (Author: Ladislau Molnar. https://github.com/ladimolnar/BitcoinBlockchain).
 
 Version check is disabled.
 
