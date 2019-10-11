@@ -1,7 +1,7 @@
 # BsvBitcoinBlockChain
 This is a fork of BitcoinBlockChain (Author: Ladislau Molnar).
 
-Version check is disenabled.
+Version check is disabled.
 
 Stylecop requirement is removed.
 
