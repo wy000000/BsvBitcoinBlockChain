@@ -1,10 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="Program.cs">
-// Copyright © Ladislau Molnar. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace BitcoinBlockchainSample
+﻿namespace BitcoinBlockchainSample
 {
     using System;
     using BitcoinBlockchain.Data;
