@@ -6,8 +6,11 @@
 
     public static class Program
     {
-        private static int Main(string[] args)
+        //private static int Main(string[] args)
+        private static int Main()
         {
+            string[] args = { @".\" };
+            //System.Environment.CurrentDirectory };
             //ParseBlockchainFiles(@"..\..\");
             if (args.Length != 1)
             {
@@ -41,7 +44,7 @@
             // to its constructor. 
             // TIP: Class IBlockchainParser provides several constructors that are useful 
             //      in different scenarios.
-            IBlockchainParser blockchainParser = new BlockchainParser(pathToBlockchain);
+            IBlockchainParser blockchainParser = new BlockchainParser(pathToBlockchain, "blk00000.dat", 1);
 
             // Call blockchainParser.SetBlockId is the blockchain uses a value different than the standard one 
             // for the "BlockId" field of each block. For example on testnet / testnet3.
