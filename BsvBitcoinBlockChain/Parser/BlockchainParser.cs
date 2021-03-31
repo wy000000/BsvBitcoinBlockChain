@@ -77,8 +77,8 @@ namespace BitcoinBlockchain.Parser
         /// to the file specified by this parameter will be ignored.
         /// If null then all file from the series of blockchain files will be processed.
         /// </param>
-        /// </param name="nextNblocks">
-        /// process the next N blocks. the default value is int.MaxValue.
+        /// </param name="nextNblockDataFiles">
+        /// process the next N blockdata files. the default value is int.MaxValue.
         /// </param>
         /// <exception cref="InvalidBlockchainFilesException">
         /// Thrown when the list of Bitcoin blockchain files is found to be invalid.
@@ -88,8 +88,8 @@ namespace BitcoinBlockchain.Parser
         /// </exception>
         [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", Justification = "blk and dat refer to file names and extensions")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "blk and dat refer to file names and extensions.")]
-        public BlockchainParser(string blockchainPath, string firstBlockchainFileName, int nextNblocks = int.MaxValue)
-            : this(GetBlockchainFiles(GetFileInfoList(blockchainPath, firstBlockchainFileName, nextNblocks)))
+        public BlockchainParser(string blockchainPath, string firstBlockchainFileName, int nextNblockDataFiles = int.MaxValue)
+            : this(GetBlockchainFiles(GetFileInfoList(blockchainPath, firstBlockchainFileName, nextNblockDataFiles)))
         {
         }
 
@@ -345,19 +345,19 @@ namespace BitcoinBlockchain.Parser
         /// In the list of blockchain files ordered by name, any blockchain file that appears prior
         /// to the file specified by this parameter will be ignored.
         /// </param>
-        /// </param name="nextNblocks">
-        /// process the next N blocks. the default value is int.MaxValue.
+        /// </param name="nextNblockDataFiles">
+        /// process the next N blockdata files. the default value is int.MaxValue.
         /// </param>
         /// <returns>
         /// A list ordered by name of FileInfo instances representing all blockchain files that will be processed.
         /// </returns>
         private static List<FileInfo> GetFileInfoList(string blockchainPath, string firstBlockchainFileName,
-            int nextNblocks=int.MaxValue)
+            int nextNblockDataFiles=int.MaxValue)
         {
             List<FileInfo> blockchainFiles = GetFileInfoList(blockchainPath);
             ValidateBlockchainFiles(blockchainFiles, firstBlockchainFileName);
 
-            return SelectFilesToProcess(blockchainFiles, firstBlockchainFileName, nextNblocks);
+            return SelectFilesToProcess(blockchainFiles, firstBlockchainFileName, nextNblockDataFiles);
         }
 
         /// <summary>
@@ -428,8 +428,8 @@ namespace BitcoinBlockchain.Parser
         /// In the list of blockchain files ordered by name, any blockchain file that appears prior
         /// to the file specified by this parameter will be ignored.
         /// </param>
-        /// </param name="nextNblocks">
-        /// process the next N blocks.
+        /// </param name="nextNblockDataFiles">
+        /// process the next N blockdata files.
         /// </param>
         /// <returns>
         /// The list ordered by name of all blockchain files that should be processed. 
@@ -437,7 +437,7 @@ namespace BitcoinBlockchain.Parser
         /// that appear prior to the file specified by firstBlockchainFileName will be ignored.
         /// </returns>
         private static List<FileInfo> SelectFilesToProcess(IEnumerable<FileInfo> allBlockchainFiles,
-            string firstBlockchainFileName, int nextNblocks)
+            string firstBlockchainFileName, int nextNblockDataFiles)
         {
             List<FileInfo> fileInfoList = new List<FileInfo>();
 
@@ -454,7 +454,7 @@ namespace BitcoinBlockchain.Parser
 
                 if (processFiles)
                 {
-                    if (fileInfoList.Count < nextNblocks)
+                    if (fileInfoList.Count < nextNblockDataFiles)
                         fileInfoList.Add(fileInfo);
                     else
                         break;
