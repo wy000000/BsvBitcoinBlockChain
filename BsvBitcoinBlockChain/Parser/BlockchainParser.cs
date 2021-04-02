@@ -14,6 +14,7 @@ namespace BitcoinBlockchain.Parser
     using System.Linq;
     using System.Security.Cryptography;
     using BitcoinBlockchain.Data;
+    //using NBitcoin;
 
     /// <summary>
     /// This class implements the IBlockchainParser interface. 
@@ -145,66 +146,66 @@ namespace BitcoinBlockchain.Parser
         /// <exception cref="InvalidBlockchainContentException">
         /// Thrown if the block version is unknown.
         /// </exception>
-        private static BlockHeader ParseBlockHeader(BlockMemoryStreamReader blockMemoryStreamReader)
-        {
-            BlockHeader blockHeader = new BlockHeader();
+        //private static BlockHeader ParseBlockHeader(BlockMemoryStreamReader blockMemoryStreamReader)
+        //{
+        //    BlockHeader blockHeader = new BlockHeader();
 
-            int positionInBaseStreamAtBlockHeaderStart = (int)blockMemoryStreamReader.BaseStream.Position;
+        //    int positionInBaseStreamAtBlockHeaderStart = (int)blockMemoryStreamReader.BaseStream.Position;
 
-            blockHeader.BlockVersion = blockMemoryStreamReader.ReadUInt32();
+        //    blockHeader.BlockVersion = blockMemoryStreamReader.ReadUInt32();
 
-            //// TODO: We need to understand better what is different in V2 and V3.
+        //    //// TODO: We need to understand better what is different in V2 and V3.
 
-            //if (blockHeader.BlockVersion != 1 &&
-            //    blockHeader.BlockVersion != 2 &&
-            //    blockHeader.BlockVersion != 3 &&
-            //    blockHeader.BlockVersion != 0x20000007 &&
-            //    blockHeader.BlockVersion != 0x30000000 &&
-            //    blockHeader.BlockVersion != 4 &&
-            //    blockHeader.BlockVersion != 0x20000000 &&
-            //    blockHeader.BlockVersion != 0x20000001 &&
-            //    blockHeader.BlockVersion != 0x30000001 &&
-            //    blockHeader.BlockVersion != 0x08000004 &&
-            //    blockHeader.BlockVersion != 0x20000002 &&
-            //    blockHeader.BlockVersion != 0x30000007 &&
-            //    blockHeader.BlockVersion != 0x20000004)
-            //{
-            //    throw new UnknownBlockVersionException(string.Format(CultureInfo.InvariantCulture, "Unknown block version: {0} ({0:X}).", blockHeader.BlockVersion));
-            //}
+        //    //if (blockHeader.BlockVersion != 1 &&
+        //    //    blockHeader.BlockVersion != 2 &&
+        //    //    blockHeader.BlockVersion != 3 &&
+        //    //    blockHeader.BlockVersion != 0x20000007 &&
+        //    //    blockHeader.BlockVersion != 0x30000000 &&
+        //    //    blockHeader.BlockVersion != 4 &&
+        //    //    blockHeader.BlockVersion != 0x20000000 &&
+        //    //    blockHeader.BlockVersion != 0x20000001 &&
+        //    //    blockHeader.BlockVersion != 0x30000001 &&
+        //    //    blockHeader.BlockVersion != 0x08000004 &&
+        //    //    blockHeader.BlockVersion != 0x20000002 &&
+        //    //    blockHeader.BlockVersion != 0x30000007 &&
+        //    //    blockHeader.BlockVersion != 0x20000004)
+        //    //{
+        //    //    throw new UnknownBlockVersionException(string.Format(CultureInfo.InvariantCulture, "Unknown block version: {0} ({0:X}).", blockHeader.BlockVersion));
+        //    //}
 
-            blockHeader.PreviousBlockHash = new ByteArray(blockMemoryStreamReader.ReadBytes(32).ReverseByteArray());
-            blockHeader.MerkleRootHash = new ByteArray(blockMemoryStreamReader.ReadBytes(32).ReverseByteArray());
+        //    blockHeader.PreviousBlockHash = new ByteArray(blockMemoryStreamReader.ReadBytes(32).ReverseByteArray());
+        //    blockHeader.MerkleRootHash = new ByteArray(blockMemoryStreamReader.ReadBytes(32).ReverseByteArray());
 
-            blockHeader.BlockTimestampUnix = blockMemoryStreamReader.ReadUInt32();
-            blockHeader.BlockTimestamp = new DateTime(1970, 1, 1).AddSeconds(blockHeader.BlockTimestampUnix);
+        //    blockHeader.BlockTimestampUnix = blockMemoryStreamReader.ReadUInt32();
+        //    blockHeader.BlockTimestamp = new DateTime(1970, 1, 1).AddSeconds(blockHeader.BlockTimestampUnix);
 
-            blockHeader.BlockTargetDifficulty = blockMemoryStreamReader.ReadUInt32();
-            blockHeader.BlockNonce = blockMemoryStreamReader.ReadUInt32();
+        //    blockHeader.BlockTargetDifficulty = blockMemoryStreamReader.ReadUInt32();
+        //    blockHeader.BlockNonce = blockMemoryStreamReader.ReadUInt32();
 
-            int positionInBaseStreamAfterBlockHeaderEnd = (int)blockMemoryStreamReader.BaseStream.Position;
+        //    int positionInBaseStreamAfterBlockHeaderEnd = (int)blockMemoryStreamReader.BaseStream.Position;
 
-            using (SHA256Managed sha256 = new SHA256Managed())
-            {
-                //// We need to calculate the double SHA256 hash of this transaction.
-                //// We need to access the buffer that contains the transaction that we jut read through. 
-                //// Here we take advantage of the fact that the entire block was loaded as an in-memory buffer.
-                //// The base stream of blockMemoryStreamReader is that in-memory buffer.
+        //    using (SHA256Managed sha256 = new SHA256Managed())
+        //    {
+        //        //// We need to calculate the double SHA256 hash of this transaction.
+        //        //// We need to access the buffer that contains the transaction that we jut read through. 
+        //        //// Here we take advantage of the fact that the entire block was loaded as an in-memory buffer.
+        //        //// The base stream of blockMemoryStreamReader is that in-memory buffer.
 
-                byte[] baseBuffer = blockMemoryStreamReader.GetBuffer();
-                int blockHeaderBufferSize = positionInBaseStreamAfterBlockHeaderEnd - positionInBaseStreamAtBlockHeaderStart;
+        //        byte[] baseBuffer = blockMemoryStreamReader.GetBuffer();
+        //        int blockHeaderBufferSize = positionInBaseStreamAfterBlockHeaderEnd - positionInBaseStreamAtBlockHeaderStart;
 
-                if (blockHeaderBufferSize != ExpectedBlockHeaderBufferSize)
-                {
-                    // We have a problem. The block header should be 80 bytes in size.
-                    throw new InvalidBlockchainContentException(string.Format(CultureInfo.InvariantCulture, "Block header buffer size has an invalid length: {0}. Expected: {1}.", blockHeaderBufferSize, ExpectedBlockHeaderBufferSize));
-                }
+        //        if (blockHeaderBufferSize != ExpectedBlockHeaderBufferSize)
+        //        {
+        //            // We have a problem. The block header should be 80 bytes in size.
+        //            throw new InvalidBlockchainContentException(string.Format(CultureInfo.InvariantCulture, "Block header buffer size has an invalid length: {0}. Expected: {1}.", blockHeaderBufferSize, ExpectedBlockHeaderBufferSize));
+        //        }
 
-                byte[] hash1 = sha256.ComputeHash(baseBuffer, positionInBaseStreamAtBlockHeaderStart, blockHeaderBufferSize);
-                blockHeader.BlockHash = new ByteArray(sha256.ComputeHash(hash1).ReverseByteArray());
-            }
+        //        byte[] hash1 = sha256.ComputeHash(baseBuffer, positionInBaseStreamAtBlockHeaderStart, blockHeaderBufferSize);
+        //        blockHeader.BlockHash = new ByteArray(sha256.ComputeHash(hash1).ReverseByteArray());
+        //    }
 
-            return blockHeader;
-        }
+        //    return blockHeader;
+        //}
 
         /// <summary>
         /// Parses a Bitcoin transaction input.
@@ -215,23 +216,23 @@ namespace BitcoinBlockchain.Parser
         /// <returns>
         /// The Bitcoin transaction input that was parsed.
         /// </returns>
-        private static TransactionInput ParseTransactionInput(BlockMemoryStreamReader blockMemoryStreamReader)
-        {
-            TransactionInput transactionInput = new TransactionInput();
+        //private static TransactionInput ParseTransactionInput(BlockMemoryStreamReader blockMemoryStreamReader)
+        //{
+        //    TransactionInput transactionInput = new TransactionInput();
 
-            transactionInput.SourceTransactionHash = new ByteArray(blockMemoryStreamReader.ReadBytes(32).ReverseByteArray());
-            transactionInput.SourceTransactionOutputIndex = blockMemoryStreamReader.ReadUInt32();
+        //    transactionInput.SourceTransactionHash = new ByteArray(blockMemoryStreamReader.ReadBytes(32).ReverseByteArray());
+        //    transactionInput.SourceTransactionOutputIndex = blockMemoryStreamReader.ReadUInt32();
 
-            int scriptLength = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
+        //    int scriptLength = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
 
-            // Ignore the script portion.
-            transactionInput.InputScript = new ByteArray(blockMemoryStreamReader.ReadBytes(scriptLength));
+        //    // Ignore the script portion.
+        //    transactionInput.InputScript = new ByteArray(blockMemoryStreamReader.ReadBytes(scriptLength));
 
-            // Ignore the sequence number. 
-            blockMemoryStreamReader.SkipBytes(4);
+        //    // Ignore the sequence number. 
+        //    blockMemoryStreamReader.SkipBytes(4);
 
-            return transactionInput;
-        }
+        //    return transactionInput;
+        //}
 
         /// <summary>
         /// Parses a Bitcoin transaction output.
@@ -242,16 +243,16 @@ namespace BitcoinBlockchain.Parser
         /// <returns>
         /// The Bitcoin transaction output that was parsed.
         /// </returns>
-        private static TransactionOutput ParseTransactionOutput(BlockMemoryStreamReader blockMemoryStreamReader)
-        {
-            TransactionOutput transactionOutput = new TransactionOutput();
+        //private static TransactionOutput ParseTransactionOutput(BlockMemoryStreamReader blockMemoryStreamReader)
+        //{
+        //    TransactionOutput transactionOutput = new TransactionOutput();
 
-            transactionOutput.OutputValueSatoshi = blockMemoryStreamReader.ReadUInt64();
-            int scriptLength = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
-            transactionOutput.OutputScript = new ByteArray(blockMemoryStreamReader.ReadBytes(scriptLength));
+        //    transactionOutput.OutputValueSatoshi = blockMemoryStreamReader.ReadUInt64();
+        //    int scriptLength = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
+        //    transactionOutput.OutputScript = new ByteArray(blockMemoryStreamReader.ReadBytes(scriptLength));
 
-            return transactionOutput;
-        }
+        //    return transactionOutput;
+        //}
 
         /// <summary>
         /// Parses a Bitcoin transaction.
@@ -262,51 +263,51 @@ namespace BitcoinBlockchain.Parser
         /// <returns>
         /// The Bitcoin transaction that was parsed.
         /// </returns>
-        private static Transaction ParseTransaction(BlockMemoryStreamReader blockMemoryStreamReader)
-        {
-            Transaction transaction = new Transaction();
+        //private static Transaction ParseTransaction(BlockMemoryStreamReader blockMemoryStreamReader)
+        //{
+        //    Transaction transaction = new Transaction();
 
-            int positionInBaseStreamAtTransactionStart = (int)blockMemoryStreamReader.BaseStream.Position;
+        //    int positionInBaseStreamAtTransactionStart = (int)blockMemoryStreamReader.BaseStream.Position;
 
-            transaction.TransactionVersion = blockMemoryStreamReader.ReadUInt32();
+        //    transaction.TransactionVersion = blockMemoryStreamReader.ReadUInt32();
 
-            int inputsCount = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
+        //    int inputsCount = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
 
-            for (int inputIndex = 0; inputIndex < inputsCount; inputIndex++)
-            {
-                TransactionInput transactionInput = BlockchainParser.ParseTransactionInput(blockMemoryStreamReader);
-                transaction.AddInput(transactionInput);
-            }
+        //    for (int inputIndex = 0; inputIndex < inputsCount; inputIndex++)
+        //    {
+        //        TransactionInput transactionInput = BlockchainParser.ParseTransactionInput(blockMemoryStreamReader);
+        //        transaction.AddInput(transactionInput);
+        //    }
 
-            int outputsCount = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
+        //    int outputsCount = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
 
-            for (int outputIndex = 0; outputIndex < outputsCount; outputIndex++)
-            {
-                TransactionOutput transactionOutput = BlockchainParser.ParseTransactionOutput(blockMemoryStreamReader);
-                transaction.AddOutput(transactionOutput);
-            }
+        //    for (int outputIndex = 0; outputIndex < outputsCount; outputIndex++)
+        //    {
+        //        TransactionOutput transactionOutput = BlockchainParser.ParseTransactionOutput(blockMemoryStreamReader);
+        //        transaction.AddOutput(transactionOutput);
+        //    }
 
-            // TODO: Need to find out more details about the semantic of TransactionLockTime.
-            transaction.TransactionLockTime = blockMemoryStreamReader.ReadUInt32();
+        //    // TODO: Need to find out more details about the semantic of TransactionLockTime.
+        //    transaction.TransactionLockTime = blockMemoryStreamReader.ReadUInt32();
 
-            int positionInBaseStreamAfterTransactionEnd = (int)blockMemoryStreamReader.BaseStream.Position;
+        //    int positionInBaseStreamAfterTransactionEnd = (int)blockMemoryStreamReader.BaseStream.Position;
 
-            using (SHA256Managed sha256 = new SHA256Managed())
-            {
-                //// We need to calculate the double SHA256 hash of this transaction.
-                //// We need to access the buffer that contains the transaction that we jut read through. 
-                //// Here we take advantage of the fact that the entire block was loaded as an in-memory buffer.
-                //// The base stream of blockMemoryStreamReader is that in-memory buffer.
+        //    using (SHA256Managed sha256 = new SHA256Managed())
+        //    {
+        //        //// We need to calculate the double SHA256 hash of this transaction.
+        //        //// We need to access the buffer that contains the transaction that we jut read through. 
+        //        //// Here we take advantage of the fact that the entire block was loaded as an in-memory buffer.
+        //        //// The base stream of blockMemoryStreamReader is that in-memory buffer.
 
-                byte[] baseBuffer = blockMemoryStreamReader.GetBuffer();
-                int transactionBufferSize = positionInBaseStreamAfterTransactionEnd - positionInBaseStreamAtTransactionStart;
+        //        byte[] baseBuffer = blockMemoryStreamReader.GetBuffer();
+        //        int transactionBufferSize = positionInBaseStreamAfterTransactionEnd - positionInBaseStreamAtTransactionStart;
 
-                byte[] hash1 = sha256.ComputeHash(baseBuffer, positionInBaseStreamAtTransactionStart, transactionBufferSize);
-                transaction.TransactionHash = new ByteArray(sha256.ComputeHash(hash1).ReverseByteArray());
-            }
+        //        byte[] hash1 = sha256.ComputeHash(baseBuffer, positionInBaseStreamAtTransactionStart, transactionBufferSize);
+        //        transaction.TransactionHash = new ByteArray(sha256.ComputeHash(hash1).ReverseByteArray());
+        //    }
 
-            return transaction;
-        }
+        //    return transaction;
+        //}
 
         /// <summary>
         /// Parses one Bitcoin block except for a few fields before the actual block header.
@@ -317,20 +318,33 @@ namespace BitcoinBlockchain.Parser
         /// <param name="blockMemoryStreamReader">
         /// Provides access to a section of the Bitcoin blockchain file.
         /// </param>
-        private static Block InternalParseBlockchainFile(string blockchainFileName, BlockMemoryStreamReader blockMemoryStreamReader)
+        private static Block InternalParseBlockchainFile(byte[] blockBuffer,
+            string blockchainFileName, BlockMemoryStreamReader blockMemoryStreamReader)
         {
-            BlockHeader blockHeader = BlockchainParser.ParseBlockHeader(blockMemoryStreamReader);
+            NBitcoin.Block b = Block.Load(blockBuffer, NBitcoin.Network.Main);
 
-            Block block = new Block(blockchainFileName, blockHeader);
+            Block block = new Block(b);
+            //BlockHeader blockHeader = BlockchainParser.ParseBlockHeader(blockMemoryStreamReader);
+            //Block block = new Block(blockBuffer, blockchainFileName, blockHeader);
+            //if (block.BlockHeader.BlockVersion < 0x20000002)
+            //{
 
-            int blockTransactionCount = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
-
-            for (int transactionIndex = 0; transactionIndex < blockTransactionCount; transactionIndex++)
-            {
-                Transaction transaction = BlockchainParser.ParseTransaction(blockMemoryStreamReader);
-                block.AddTransaction(transaction);
-            }
-
+            //int blockTransactionCount = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
+            //    for (int transactionIndex = 0; transactionIndex < blockTransactionCount; transactionIndex++)
+            //    {
+            //        Transaction transaction = BlockchainParser.ParseTransaction(blockMemoryStreamReader);
+            //        block.AddTransaction(transaction);
+            //    }
+            //}
+            //else
+            //{
+            //NBitcoin.Block nblock = NBitcoin.Block.Load(blockBuffer, NBitcoin.Network.Main);
+            //foreach(NBitcoin.Transaction ntx in nblock.Transactions)
+            //{
+            //    //block.AddTransaction()
+            //}
+            //}
+            //NBitcoin.Block nblock = NBitcoin.Block.Load(blockBuffer, NBitcoin.Network.Main);
             return block;
         }
 
@@ -515,7 +529,8 @@ namespace BitcoinBlockchain.Parser
 
             using (BlockMemoryStreamReader blockMemoryStreamReader = new BlockMemoryStreamReader(blockBuffer))
             {
-                return BlockchainParser.InternalParseBlockchainFile(blockchainFileName, blockMemoryStreamReader);
+                return BlockchainParser.InternalParseBlockchainFile(blockBuffer,
+                    blockchainFileName, blockMemoryStreamReader);
             }
         }
 

@@ -18,7 +18,7 @@ namespace BitcoinBlockchain.Data
     /// generate different values for GetHashCode. That prevents a C# byte array from being used directly 
     /// as a key in a dictionary. ByteArray can be used in that situation.
     /// </summary>
-    [type: CLSCompliant(true)]
+    ///[type: CLSCompliant(true)]
     public class ByteArray
     {
         /// <summary>

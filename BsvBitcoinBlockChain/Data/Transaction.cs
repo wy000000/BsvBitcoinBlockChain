@@ -9,6 +9,7 @@ namespace BitcoinBlockchain.Data
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using NBitcoin;
 
     /// <summary>
     /// Contains information about a Bitcoin transaction.
@@ -37,6 +38,14 @@ namespace BitcoinBlockchain.Data
             this.Inputs = new ReadOnlyCollection<TransactionInput>(this.transactionInputs);
             this.Outputs = new ReadOnlyCollection<TransactionOutput>(this.transactionOutputs);
         }
+
+        //public Transaction(NBitcoin.Transaction ntx)
+        //{
+        //    this.TransactionHash = new ByteArray(ntx.GetHash().ToBytes());
+        //    this.TransactionLockTime = ntx.LockTime;
+        //    this.TransactionVersion = ntx.Version;
+            
+        //}
 
         /// <summary>
         /// Gets or sets the 256 bit hash of this transaction.

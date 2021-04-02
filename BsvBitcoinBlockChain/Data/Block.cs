@@ -14,12 +14,17 @@ namespace BitcoinBlockchain.Data
     /// Contains information about a Bitcoin block.
     /// For more information see: https://en.bitcoin.it/wiki/Block
     /// </summary>
-    public class Block
+    public class Block:NBitcoin.Block
     {
+        public Block (NBitcoin.Block b)
+        {            
+            this.Header = b.Header;
+            this.Transactions = b.Transactions;
+        }
         /// <summary>
         /// The list of transactions in this Bitcoin block.
         /// </summary>
-        private readonly List<Transaction> transactions;
+        //private readonly List<Transaction> transactions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Block"/> class.
@@ -30,14 +35,15 @@ namespace BitcoinBlockchain.Data
         /// <param name="blockHeader">
         /// The block header.
         /// </param>
-        public Block(string blockchainFileName, BlockHeader blockHeader)
-        {
-            this.BlockchainFileName = blockchainFileName;
-            this.BlockHeader = blockHeader;
+        //public Block(byte[] blockBuffer, string blockchainFileName, BlockHeader blockHeader)
+        //{
+        //    this.BlockchainFileName = blockchainFileName;
+        //    this.BlockHeader = blockHeader;
+        //    //this.BlockRawData = blockBuffer;
 
-            this.transactions = new List<Transaction>();
-            this.Transactions = new ReadOnlyCollection<Transaction>(this.transactions);
-        }
+        //    this.transactions = new List<Transaction>();
+        //    this.Transactions = new ReadOnlyCollection<Transaction>(this.transactions);
+        //}
 
         /// <summary>
         /// Gets the name of the blockchain file that contains the block being parsed.
@@ -52,12 +58,12 @@ namespace BitcoinBlockchain.Data
         /// <summary>
         /// Gets the block header information.
         /// </summary>
-        public BlockHeader BlockHeader { get; private set; }
-
+        //public BlockHeader BlockHeader { get; private set; }
+        //public byte[] BlockRawData { get; private set; }
         /// <summary>
         /// Gets the read-only collection of transactions in this Bitcoin block.
         /// </summary>
-        public ReadOnlyCollection<Transaction> Transactions { get; private set; }
+        //public ReadOnlyCollection<Transaction> Transactions { get; private set; }
 
         /// <summary>
         /// Gets the total count of the transaction inputs in this block.
@@ -81,9 +87,9 @@ namespace BitcoinBlockchain.Data
         /// <param name="transaction">
         /// The Bitcoin transaction to be added to the list of transactions.
         /// </param>
-        public void AddTransaction(Transaction transaction)
-        {
-            this.transactions.Add(transaction);
-        }
+        //public void AddTransaction(Transaction transaction)
+        //{
+        //    this.transactions.Add(transaction);
+        //}
     }
 }
