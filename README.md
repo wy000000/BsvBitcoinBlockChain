@@ -11,6 +11,32 @@ A BSV bitcoin blockchain parser (also works for BTC and BCH).
 
 BitcoinSV.
 
+            string BlockPath = System.Environment.CurrentDirectory;
+            IBlockchainParser blockchainParser = new BlockchainParser(BlockPath);
+            IEnumerable<BitcoinBlockchain.Data.Block> blocks = blockchainParser.ParseBlockchain();
+            int TxCount = 0;
+            int txInputCount = 0;
+            int txOutputCount = 0;
+            long movedAmount = 0;
+            foreach (BitcoinBlockchain.Data.Block block in blocks)
+            {
+                TxCount += block.Transactions.Count;
+                foreach (Transaction tx in block.Transactions)
+                {
+                    txInputCount += tx.Inputs.Count;
+                    txOutputCount += tx.Outputs.Count;
+                    foreach (TxOut txout in tx.Outputs)
+                    {
+                        movedAmount += txout.Value.Satoshi;
+                    }
+                }
+            }
+            Console.WriteLine("block count: " + blocks.Count());
+            Console.WriteLine("tx count: " + TxCount);
+            Console.WriteLine("tx input count: " + txInputCount);
+            Console.WriteLine("tx output count: " + txOutputCount);
+            Console.WriteLine("moved amount: " + movedAmount);
+
 Documents, please refer to https://github.com/ladimolnar/BitcoinBlockchain  .
 
 https://www.nuget.org/packages/BsvBitcoinBlockChain/
