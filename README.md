@@ -9,6 +9,8 @@ Stylecop requirement is removed.
 
 A BSV bitcoin blockchain parser (also works for BTC and BCH).
 
+BitcoinSV.
+
 Documents, please refer to https://github.com/ladimolnar/BitcoinBlockchain  .
 
 https://www.nuget.org/packages/BsvBitcoinBlockChain/
