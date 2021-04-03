@@ -13,7 +13,7 @@ A BSV bitcoin blockchain parser (also works for BTC and BCH).
 BitcoinSV.
 
             string BlockPath = System.Environment.CurrentDirectory;
-            IBlockchainParser blockchainParser = new BlockchainParser(BlockPath);
+            IBlockchainParser blockchainParser = new BlockchainParser(BlockPath, "blk00000.dat", 1);
             IEnumerable<ParserBlock> blocks = blockchainParser.ParseBlockchain();
             int TxCount = 0;
             int txInputCount = 0;
