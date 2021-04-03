@@ -10,7 +10,8 @@ Stylecop requirement is removed.
 
 A BSV bitcoin blockchain parser (also works for BTC and BCH).
 
-BitcoinSV.
+BitcoinSV. 
+BSV.
 
             string BlockPath = System.Environment.CurrentDirectory;
             IBlockchainParser blockchainParser = new BlockchainParser(BlockPath, "blk00000.dat", 1);
