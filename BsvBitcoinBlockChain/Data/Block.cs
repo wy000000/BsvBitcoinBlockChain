@@ -9,18 +9,26 @@ namespace BitcoinBlockchain.Data
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using NBitcoin;
 
     /// <summary>
     /// Contains information about a Bitcoin block.
     /// For more information see: https://en.bitcoin.it/wiki/Block
     /// </summary>
-    public class Block:NBitcoin.Block
+    public class ParserBlock:NBitcoin.Block
     {
-        public Block (NBitcoin.Block b)
-        {            
+        public ParserBlock(Block b)
+        {
             this.Header = b.Header;
             this.Transactions = b.Transactions;
         }
+        //public ParserBlock load(byte[] blockBufferBytes, NBitcoin.Network network)
+        //{
+        //    NBitcoin.Block b = NBitcoin.Block.Load(blockBufferBytes, network);
+        //    this.Header = b.Header;
+        //    this.Transactions = b.Transactions;
+        //    return this;
+        //}
         /// <summary>
         /// The list of transactions in this Bitcoin block.
         /// </summary>

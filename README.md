@@ -1,4 +1,5 @@
 # BsvBitcoinBlockChain
+Ver 1.2.9 renames the block class name avoid name collision.
 Ver 1.2.8 adds support for segwit blocks.
 Ver 1.2.7.1 adds a nextNblockDataFiles parameter for BlockchainParser class.
 	The next N blockdata files would be processed if N is assign a value. The default value is int.MaxValue.
@@ -11,14 +12,14 @@ A BSV bitcoin blockchain parser (also works for BTC and BCH).
 
 BitcoinSV.
 
-            string BlockFilePath = System.Environment.CurrentDirectory;
-            IBlockchainParser blockchainParser = new BlockchainParser(BlockFilePath, "blk00000.dat", 1);
-            IEnumerable<BitcoinBlockchain.Data.Block> blocks = blockchainParser.ParseBlockchain();
+            string BlockPath = System.Environment.CurrentDirectory;
+            IBlockchainParser blockchainParser = new BlockchainParser(BlockPath);
+            IEnumerable<ParserBlock> blocks = blockchainParser.ParseBlockchain();
             int TxCount = 0;
             int txInputCount = 0;
             int txOutputCount = 0;
             long movedAmount = 0;
-            foreach (BitcoinBlockchain.Data.Block block in blocks)
+            foreach (ParserBlock block in blocks)
             {
                 TxCount += block.Transactions.Count;
                 foreach (Transaction tx in block.Transactions)

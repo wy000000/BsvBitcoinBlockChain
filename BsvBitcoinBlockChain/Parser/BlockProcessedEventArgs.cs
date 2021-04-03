@@ -20,7 +20,7 @@ namespace BitcoinBlockchain.Parser
         /// <param name="block">
         /// Contains data describing the block that was processed.
         /// </param>
-        public BlockProcessedEventArgs(Block block)
+        public BlockProcessedEventArgs(ParserBlock block)
         {
             this.Block = block;
         }
@@ -28,6 +28,6 @@ namespace BitcoinBlockchain.Parser
         /// <summary>
         /// Gets the data describing the block that was processed.
         /// </summary>
-        public Block Block { get; private set; }
+        public ParserBlock Block { get; private set; }
     }
 }

@@ -23,7 +23,7 @@ namespace BitcoinBlockchain.Parser
         /// A <see cref="IEnumerable&lt;Block&gt;"/>.
         /// Each element contains information about one Bitcoin block.
         /// </returns>
-        IEnumerable<Block> ParseBlockchain();
+        IEnumerable<ParserBlock> ParseBlockchain();
 
         /// <summary>
         /// Sets the value that will be used to check against the BlockId of each block.

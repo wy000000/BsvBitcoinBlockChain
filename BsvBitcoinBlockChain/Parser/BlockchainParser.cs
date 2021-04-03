@@ -14,7 +14,7 @@ namespace BitcoinBlockchain.Parser
     using System.Linq;
     using System.Security.Cryptography;
     using BitcoinBlockchain.Data;
-    //using NBitcoin;
+    using NBitcoin;
 
     /// <summary>
     /// This class implements the IBlockchainParser interface. 
@@ -123,11 +123,11 @@ namespace BitcoinBlockchain.Parser
         /// A <see cref="IEnumerable&lt;Block&gt;"/>.
         /// Each element contains information about one Bitcoin block.
         /// </returns>
-        public IEnumerable<Block> ParseBlockchain()
+        public IEnumerable<ParserBlock> ParseBlockchain()
         {
             foreach (BlockchainFile blockchainFile in this.blockchainFilesEnumerator)
             {
-                foreach (Block block in this.ParseBlockchainFile(blockchainFile))
+                foreach (ParserBlock block in this.ParseBlockchainFile(blockchainFile))
                 {
                     yield return block;
                 }
@@ -318,12 +318,12 @@ namespace BitcoinBlockchain.Parser
         /// <param name="blockMemoryStreamReader">
         /// Provides access to a section of the Bitcoin blockchain file.
         /// </param>
-        private static Block InternalParseBlockchainFile(byte[] blockBuffer,
+        private static ParserBlock InternalParseBlockchainFile(byte[] blockBuffer,
             string blockchainFileName, BlockMemoryStreamReader blockMemoryStreamReader)
         {
-            NBitcoin.Block b = Block.Load(blockBuffer, NBitcoin.Network.Main);
+            Block nblk = ParserBlock.Load(blockBuffer, NBitcoin.Network.Main);
+            ParserBlock block = new ParserBlock(nblk);
 
-            Block block = new Block(b);
             //BlockHeader blockHeader = BlockchainParser.ParseBlockHeader(blockMemoryStreamReader);
             //Block block = new Block(blockBuffer, blockchainFileName, blockHeader);
             //if (block.BlockHeader.BlockVersion < 0x20000002)
@@ -509,7 +509,7 @@ namespace BitcoinBlockchain.Parser
         /// <param name="binaryReader">
         /// Provides access to a Bitcoin blockchain file.
         /// </param>
-        private Block ParseBlockchainFile(string blockchainFileName, BinaryReader binaryReader)
+        private ParserBlock ParseBlockchainFile(string blockchainFileName, BinaryReader binaryReader)
         {
             // There are some rare situations where a block is preceded by a section containing zero bytes. 
             if (binaryReader.SkipZeroBytes() == false)
@@ -549,7 +549,7 @@ namespace BitcoinBlockchain.Parser
 
             while (binaryReader.BaseStream.Position < binaryReader.BaseStream.Length)
             {
-                Block block = this.ParseBlockchainFile(blockchainFile.FileName, binaryReader);
+                ParserBlock block = this.ParseBlockchainFile(blockchainFile.FileName, binaryReader);
                 if (block != null)
                 {
                     block.PercentageOfCurrentBlockchainFile = (int)(100 * binaryReader.BaseStream.Position / binaryReader.BaseStream.Length);

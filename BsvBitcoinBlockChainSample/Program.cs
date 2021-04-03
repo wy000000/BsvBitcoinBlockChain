@@ -2,6 +2,9 @@
 {
     using System;
     using BitcoinBlockchain.Parser;
+    using BitcoinBlockchain.Data;
+    //using BitcoinBlockchain;
+    //using NBitcoin;
 
     public static class Program
     {
@@ -82,7 +85,7 @@
             //          https://bitcoin.org/en/glossary/orphan-block
             //          http://bitcoin.stackexchange.com/questions/5859/what-are-orphaned-and-stale-blocks
             //NBitcoin.Block b = new NBitcoin.Block();            
-            foreach (BitcoinBlockchain.Data.Block block in blockchainParser.ParseBlockchain())
+            foreach (ParserBlock block in blockchainParser.ParseBlockchain())
             {
                 if (currentBlockchainFile != block.BlockchainFileName)
                 {
