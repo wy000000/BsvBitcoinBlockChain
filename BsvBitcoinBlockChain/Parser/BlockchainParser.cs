@@ -322,7 +322,7 @@ namespace BitcoinBlockchain.Parser
             string blockchainFileName, BlockMemoryStreamReader blockMemoryStreamReader)
         {
             Block nblk = ParserBlock.Load(blockBuffer, NBitcoin.Network.Main);
-            ParserBlock block = new ParserBlock(nblk);
+            ParserBlock block = new ParserBlock(nblk, blockBuffer.Length, blockchainFileName);
 
             //BlockHeader blockHeader = BlockchainParser.ParseBlockHeader(blockMemoryStreamReader);
             //Block block = new Block(blockBuffer, blockchainFileName, blockHeader);

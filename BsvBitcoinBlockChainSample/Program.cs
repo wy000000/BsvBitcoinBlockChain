@@ -3,6 +3,7 @@
     using System;
     using BitcoinBlockchain.Parser;
     using BitcoinBlockchain.Data;
+    using System.Collections.Generic;
     //using BitcoinBlockchain;
     //using NBitcoin;
 
@@ -84,9 +85,12 @@
             //          https://bitcoin.org/en/glossary/stale-block
             //          https://bitcoin.org/en/glossary/orphan-block
             //          http://bitcoin.stackexchange.com/questions/5859/what-are-orphaned-and-stale-blocks
-            //NBitcoin.Block b = new NBitcoin.Block();            
-            foreach (ParserBlock block in blockchainParser.ParseBlockchain())
+            //NBitcoin.Block b = new NBitcoin.Block();
+            IEnumerable<ParserBlock> blocks = blockchainParser.ParseBlockchain();
+            foreach (ParserBlock block in blocks)
             {
+                int blocklength = block.BlockLength;
+                string filename = block.BlockchainFileName;
                 if (currentBlockchainFile != block.BlockchainFileName)
                 {
                     if (currentBlockchainFile != null)

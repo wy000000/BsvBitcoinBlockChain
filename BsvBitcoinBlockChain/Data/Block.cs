@@ -17,8 +17,11 @@ namespace BitcoinBlockchain.Data
     /// </summary>
     public class ParserBlock:NBitcoin.Block
     {
-        public ParserBlock(Block b)
+        public int BlockLength { get; }
+        public ParserBlock(Block b, int blocklength, string blockchainFilename)
         {
+            BlockchainFileName = blockchainFilename;
+            BlockLength = blocklength;
             this.Header = b.Header;
             this.Transactions = b.Transactions;
         }

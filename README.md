@@ -1,4 +1,7 @@
 # BsvBitcoinBlockChain
+A BSV bitcoin blockchain parser (also works for BTC and BCH).
+
+Ver 1.3.0 adds blockLength and blockchainFilename.
 Ver 1.2.9 renames the block class name avoid name collision.
 Ver 1.2.8 adds support for segwit blocks.
 Ver 1.2.7.1 adds a nextNblockDataFiles parameter for BlockchainParser class.
@@ -6,9 +9,6 @@ Ver 1.2.7.1 adds a nextNblockDataFiles parameter for BlockchainParser class.
 Ver 1.2.6. This is a fork of BitcoinBlockChain (Author: Ladislau Molnar).
 Version check is disabled.
 Stylecop requirement is removed.
-
-
-A BSV bitcoin blockchain parser (also works for BTC and BCH).
 
 BitcoinSV. 
 BSV.
@@ -22,6 +22,7 @@ BSV.
             long movedAmount = 0;
             foreach (ParserBlock block in blocks)
             {
+                int blocklength = block.blockLength;
                 TxCount += block.Transactions.Count;
                 foreach (Transaction tx in block.Transactions)
                 {
@@ -42,3 +43,5 @@ BSV.
 Documents, please refer to https://github.com/ladimolnar/BitcoinBlockchain  .
 
 https://www.nuget.org/packages/BsvBitcoinBlockChain/
+
+12Nu5u5pgP7XvFGj31t71cdsmmWR7W2f83
