@@ -1,6 +1,7 @@
-# BsvBitcoinBlockChain
+﻿# BsvBitcoinBlockChain
 A BSV bitcoin blockchain parser (also works for BTC and BCH).
 
+Ver 1.3.1 updates library references to Newtonsoft.Json v13.0.4 and NBitcoin v10.0.3.
 Ver 1.3.0 adds blockLength and blockchainFilename.
 Ver 1.2.9 renames the block class name avoid name collision.
 Ver 1.2.8 adds support for segwit blocks.
@@ -13,32 +14,32 @@ Stylecop requirement is removed.
 BitcoinSV. 
 BSV.
 
-            string BlockPath = System.Environment.CurrentDirectory;
-            IBlockchainParser blockchainParser = new BlockchainParser(BlockPath, "blk00000.dat", 1);
-            IEnumerable<ParserBlock> blocks = blockchainParser.ParseBlockchain();
-            int TxCount = 0;
-            int txInputCount = 0;
-            int txOutputCount = 0;
-            long movedAmount = 0;
-            foreach (ParserBlock block in blocks)
-            {
-                int blocklength = block.blockLength;
-                TxCount += block.Transactions.Count;
-                foreach (Transaction tx in block.Transactions)
-                {
-                    txInputCount += tx.Inputs.Count;
-                    txOutputCount += tx.Outputs.Count;
-                    foreach (TxOut txout in tx.Outputs)
-                    {
-                        movedAmount += txout.Value.Satoshi;
-                    }
-                }
-            }
-            Console.WriteLine("block count: " + blocks.Count());
-            Console.WriteLine("tx count: " + TxCount);
-            Console.WriteLine("tx input count: " + txInputCount);
-            Console.WriteLine("tx output count: " + txOutputCount);
-            Console.WriteLine("moved amount: " + movedAmount);
+			string BlockPath = System.Environment.CurrentDirectory;
+			IBlockchainParser blockchainParser = new BlockchainParser(BlockPath, "blk00000.dat", 1);
+			IEnumerable<ParserBlock> blocks = blockchainParser.ParseBlockchain();
+			int TxCount = 0;
+			int txInputCount = 0;
+			int txOutputCount = 0;
+			long movedAmount = 0;
+			foreach (ParserBlock block in blocks)
+			{
+				int blocklength = block.blockLength;
+				TxCount += block.Transactions.Count;
+				foreach (Transaction tx in block.Transactions)
+				{
+					txInputCount += tx.Inputs.Count;
+					txOutputCount += tx.Outputs.Count;
+					foreach (TxOut txout in tx.Outputs)
+					{
+						movedAmount += txout.Value.Satoshi;
+					}
+				}
+			}
+			Console.WriteLine("block count: " + blocks.Count());
+			Console.WriteLine("tx count: " + TxCount);
+			Console.WriteLine("tx input count: " + txInputCount);
+			Console.WriteLine("tx output count: " + txOutputCount);
+			Console.WriteLine("moved amount: " + movedAmount);
 
 Documents, please refer to https://github.com/ladimolnar/BitcoinBlockchain  .
 

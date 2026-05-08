@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.3.0</Version>
+    <Version>1.3.1</Version>
     <Description>A BSV bitcoin blockchain parser (also works for BTC and BCH).
 
+Ver 1.3.1 updates library references to Newtonsoft.Json v13.0.4 and NBitcoin v10.0.3.
 Ver 1.3.0 adds blockLength and blockchainFilename.
 Ver 1.2.9 renames the block class name avoid name collision.
 Ver 1.2.8 adds support for segwit blocks.
@@ -15,15 +16,19 @@ Stylecop requirement is removed.
 
 BitcoinSV. 
 BSV.</Description>
-    <PackageReleaseNotes>Ver 1.3.0 adds blockLength and blockchainFilename.</PackageReleaseNotes>
-    <Copyright>License</Copyright>
-    <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <PackageReleaseNotes>Ver 1.3.1 updates library references to Newtonsoft.Json v13.0.4 and NBitcoin v10.0.3.</PackageReleaseNotes>
+    <Copyright></Copyright>
+    <PackageLicenseFile></PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/wy000000/BsvBitcoinBlockChain</PackageProjectUrl>
-    <AssemblyVersion>1.3.0.0</AssemblyVersion>
-    <FileVersion>1.3.0.0</FileVersion>
+    <AssemblyVersion>1.3.1.0</AssemblyVersion>
+    <FileVersion>1.3.1.0</FileVersion>
     <Authors>wy</Authors>
     <Company />
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/wy000000/BsvBitcoinBlockChain</RepositoryUrl>
+    <RepositoryType>https://github.com/wy000000/BsvBitcoinBlockChain.git</RepositoryType>
+    <Title>BsvBitcoinBlockChain</Title>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,13 +39,14 @@ BSV.</Description>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NBitcoin" Version="5.0.76" />
+    <PackageReference Include="NBitcoin" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\License.txt">
+    <None Include="..\README.md">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
